@@ -17,7 +17,7 @@ class PostController extends Controller
             'uuid' => Str::uuid(),
             'content' => $request->input('content'),
             'featured' => $request->input('featured') === 'on',
-            'visibility' => $request->input('visibility'),
+            'visibility' => $request->input('visibility') ?? 0,
             'sensitive' => $request->has('spoiler_text'),
             'spoiler_text' => $request->input('spoiler_text'),
         ]);
@@ -42,7 +42,7 @@ class PostController extends Controller
         $profile->posts()->where('id', $postId)->update([
             'content' => $request->input('content'),
             'featured' => $request->input('featured') === 'on',
-            'visibility' => $request->input('visibility'),
+            'visibility' => $request->input('visibility') ?? 0,
             'sensitive' => $request->has('spoiler_text'),
             'spoiler_text' => $request->input('spoiler_text'),
         ]);
