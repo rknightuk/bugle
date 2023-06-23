@@ -1,0 +1,48 @@
+.pub_profile_header {
+    text-align: center;
+    margin-top: 20px;
+    max-width: 650px;
+    margin: 0 auto;
+    border: 1px solid var(--primary-subtle);
+    background-color: var(--bg-alt);
+}
+
+.pub_profile_header_image {
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--primary-subtle);
+}
+
+.pub_profile_header_image img {
+    object-fit: cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.pub_profile_header_avatar {
+    margin-top: -50px;
+    z-index: 2;
+    position: relative;
+}
+
+.pub_profile_header_avatar img {
+    border: 1px solid var(--primary-subtle);
+}
+
+.public_posts {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+hr {
+    width: 100px;
+    border: 1px solid var(--primary-subtle);
+}
+
+hr:last-child {
+    display: none;
+}

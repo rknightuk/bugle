@@ -1,0 +1,39 @@
+nav a {
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+nav.main {
+    background-color: var(--bg-alt);
+    border-bottom: 1px solid var(--primary-subtle);
+}
+
+nav.main .wrapper {
+    height: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+nav.main .wrapper-title {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+nav.main .wrapper-title .icon {
+    color: var(--primary);
+}
+
+nav.main .wrapper-links {
+    display: flex;
+    align-items: center;
+}
+
+nav.main .wrapper-links a {
+    margin-left: 10px;
+}

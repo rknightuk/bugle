@@ -1,0 +1,72 @@
+:root {
+    --primary: #ae3ec9;
+    --primary-subtle: #eebefa;
+    --bg: #f1f3f5;
+    /* --bg-alt: #dee2e6; */
+    --bg-alt: white;
+    --text: #343a40;
+    --text-subtle: #868e96;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg);
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 0.95em;
+    color: var(--text);
+}
+
+.content {
+    padding: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: var(--primary);
+}
+
+a {
+    color: #ae3ec9;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.admin_profiles {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.admin_profile {
+    max-width: 100px;
+}
+
+.admin_profile_header {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.admin_profile_header img {
+    margin-right: 20px;
+}
+
+.post_date {
+    color: var(--text-subtle);
+    font-size: 0.9em;
+}
+
+.activity_reply {
+    border-left: 1px solid var(--primary-subtle);
+    padding-left: 10px;
+}
+
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
