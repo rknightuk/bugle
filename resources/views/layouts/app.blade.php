@@ -28,6 +28,8 @@
 
     </head>
     <body>
+        <a rel="me" href="https://bugle.lol/@bugle" style="display: none;">Mastodon</a>
+
         <nav class="main">
             <div class="wrapper">
                 <div class="wrapper-title">
