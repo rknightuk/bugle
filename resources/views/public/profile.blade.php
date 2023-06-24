@@ -20,6 +20,10 @@
             <p>{{ $link->title }}: @if ($link->isUrl())<a href="{{ $link->link}}">{{ $link->link}}</a>@else{{ $link->link}}@endif</p>
         @endforeach
 
+        @if ($profile->followers->count())
+            <p><strong>{{ $profile->followers->count() }} follower{{ $profile->followers->count() > 1 ? 's' : ''}}</strong></p>
+        @endif
+
         @if (isset($singleToot))
             <p><a href="/{{"@" . $profile->username}}">View all toots from {{"@" . $profile->username}}</a><p>
         @endif
