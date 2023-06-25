@@ -1,7 +1,5 @@
 ## Bugle
 
-<a rel="me" href="https://bugle.lol/@bugle">@bugle</a>
-
 **What does it do?**
 
 - Create ActivityPub profiles
