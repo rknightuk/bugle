@@ -19,6 +19,7 @@
             <li><span class="fa-li"><i class="fad fa-images"></i></span>Avatar and header images</li>
             <li><span class="fa-li"><i class="fad fa-envelope-open-text"></i></span>Send toots (with Markdown!)</li>
             <li><span class="fa-li"><i class="fad fa-heart-circle"></i></span>See replies, boosts, and likes</li>
+            <li><span class="fa-li"><i class="fad fa-images"></i></span>Attach a photo to toots</li>
         </ul>
 
         <p><i class="fad fa-trumpet"></i> <a href="/@bugle">View @bugle's profile</a></li>
@@ -26,9 +27,8 @@
         <h3>What <em>doesn't</em> it do?</h3>
         <ul class="fa-ul">
             <li><span class="fa-li"><i class="fad fa-envelope-open-text"></i></span>Use this with your mastodon client</li>
-            <li><span class="fa-li"><i class="fad fa-user"></i></span>Reply to toots (you can @mention people in toots though)*</li>
+            <li><span class="fa-li"><i class="fad fa-user"></i></span>Reply and @mention people in toots*</li>
             <li><span class="fa-li"><i class="fad fa-heart-circle"></i></span>Edit toots (edit works, but your followers will never see it)*</li>
-            <li><span class="fa-li"><i class="fad fa-images"></i></span>Attach media to toots*</li>
         </ul>
 
         <p>* These are on my list to get working at some point, assuming I continue to use Bugle.</p>

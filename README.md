@@ -7,15 +7,13 @@
 - Avatar and header images
 - Send toots (with Markdown!)
 - See replies, boosts, and likes
+- Attach a single photo to toots
 
 **What doesn't it do?**
 
-- Reply to toots (you can @mention people in toots though)
+- Reply or @mention people in toots
 - Use this with your mastodon client
 - Edit toots (edit works, but your followers will never see it) \*
-- Attach media to toots \*
-
-\* These are on my list to get working at some point
 
 **Can I use it for my ActivityPub needs?**
 
