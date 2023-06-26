@@ -6,4 +6,5 @@ return [
         'full' => 'https://' . env('DOMAIN'),
     ],
     'assetpath' => env('REMOTE_ASSET_URL', ''),
+    'ntfy' => env('NTFYSH_KEY'),
 ];

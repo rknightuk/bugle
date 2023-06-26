@@ -13,8 +13,6 @@ class AdminController extends Controller
     {
         $profiles = Profile::get();
 
-        // dd(Activity::orderBy('id', 'desc')->get()->toArray());
-
         return view('admin.dashboard', [
             'profiles' => $profiles,
             'activity' => Activity::orderBy('id', 'desc')->get(),

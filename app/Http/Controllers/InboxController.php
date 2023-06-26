@@ -123,8 +123,6 @@ class InboxController extends Controller
 
     private function handleMention(array $input)
     {
-        info('handling mention');
-
         $username = null;
 
         $cc = Arr::get($input, 'cc', null);
@@ -160,7 +158,17 @@ class InboxController extends Controller
                 'content' => Arr::get($input, 'object.content'),
             ];
 
-            $profile->activities()->create($activityData);
+            $activity = $profile->activities()->create($activityData);
+
+            if ($ntfyKey = config('bugle.ntfy'))
+            {
+                Http::withHeaders([
+                    'Content-Type' => 'text/plain',
+                    'Title' => 'New mention from @' . $activity->getActorUsername(),
+                    'click' => Arr::get($input, 'object.url'),
+                ])
+                ->post('https://ntfy.sh/' . $ntfyKey, strip_tags($activity->content));
+            }
         }
     }
 
