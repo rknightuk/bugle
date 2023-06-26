@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostChanged;
+use Bepsvpt\Blurhash\BlurHash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    public function __construct(private BlurHash $blurhash){}
+
     public function create(Request $request)
     {
         $username = $request->input('username');
@@ -21,6 +24,24 @@ class PostController extends Controller
             'sensitive' => $request->has('spoiler_text'),
             'spoiler_text' => $request->input('spoiler_text'),
         ]);
+
+        if ($request->file('attachment'))
+        {
+            $extension = $request->file('attachment')->extension();
+            $mimeType = $request->file('attachment')->getMimeType();
+            $dimensions = $request->file('attachment')->dimensions();
+            $attachmentPath = $request->file('attachment')->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
+
+            $post->attachment()->create([
+                'profile_id' => $profile->id,
+                'file' => $attachmentPath,
+                'alt' => $request->input('attachment_alt'),
+                'mime' => $mimeType,
+                'width' => $dimensions[0],
+                'height' => $dimensions[1],
+                'blurhash' => $this->blurhash->encode($request->file('attachment')),
+            ]);
+        }
 
         PostChanged::dispatch($post);
 

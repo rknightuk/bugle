@@ -138,8 +138,6 @@ class ProfileController extends Controller
             return $post->serialize($profile);
         }
 
-        // dd($post->counts());
-
         return view('public.profile', ['profile' => $profile, 'posts' => [$post], 'singleToot' => true]);
     }
 

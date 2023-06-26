@@ -32,7 +32,7 @@
 
     <h2>New Toot</h2>
 
-    <form method="POST" action="/dashboard/posts" class="ui form">
+    <form method="POST" action="/dashboard/posts" class="ui form" enctype="multipart/form-data">
         <div class="field">
             <label>Profile</label>
             <select name="username">
@@ -47,6 +47,16 @@
             <textarea name="content" maxlength="500" placeholder="me, lightly touching miette with the side of my foot: miette move out of the way please so I don’t trip on you
 
 miette, her eyes enormous: you KICK miette? you kick her body like the football? oh! oh! jail for mother! jail for mother for One Thousand Years!!!!"></textarea>
+        </div>
+
+        <div class="field">
+            <label>Attachment</label>
+            <input type="file" name="attachment">
+        </div>
+
+        <div class="field">
+            <label>Attachment Alt Text</label>
+            <input type="text" name="attachment_alt">
         </div>
 
         <div class="field">

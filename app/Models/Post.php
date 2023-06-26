@@ -33,6 +33,11 @@ class Post extends Model
         return $this->hasMany(Activity::class);
     }
 
+    public function attachment()
+    {
+        return $this->hasOne(Attachment::class);
+    }
+
     public function formatContent()
     {
         return TootFormatter::format($this->content);

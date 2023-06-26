@@ -6,7 +6,6 @@ use App\Models\Follower;
 use App\Models\Post;
 use App\Services\HttpSignature;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -47,6 +46,15 @@ class NotifyFollowers implements ShouldQueue
                 'cc' => $cc,
                 'senstive' => (bool) $this->post->sensitive,
                 'summary' => $this->post->spoiler_text,
+                'attachment' => $this->post->attachment ? [
+                    "type" => "Document",
+                    "mediaType" => $this->post->attachment->mime,
+                    "url" => $this->post->attachment->getFullUrl(),
+                    "name" => $this->post->attachment->alt,
+                    'blurhash' => $this->post->attachment->blurhash,
+                    'width' => $this->post->attachment->width,
+                    'height' => $this->post->attachment->height,
+                ] : [],
             ],
         ];
 
