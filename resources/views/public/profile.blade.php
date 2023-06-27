@@ -37,6 +37,15 @@
             <div class="public_post">
                 {!! $post->formatContent()[0] !!}
                 <p class="post_date">{{ $post->created_at }} <a href="/{{"@"}}{{ $profile->username }}/{{ $post->uuid }}">Permalink</a></p>
+                @if ($post->attachments->count())
+                    <div class="public_post_images">
+                        @foreach ($post->attachments as $attachment)
+                            <div>
+                                <a target="_blank" href="{{$attachment->getFullUrl()}}"><img src="{{ $attachment->getFullUrl()}}"></a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
             <hr>
         @endforeach

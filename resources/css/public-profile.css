@@ -46,3 +46,13 @@ hr {
 hr:last-child {
     display: none;
 }
+
+.public_post_images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+}
+
+.public_post_images img {
+    max-width: 100%;
+}
