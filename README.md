@@ -15,6 +15,7 @@
 
 - Use this with your mastodon client
 - Show featured posts on profile
+- Allow you to follow accounts
 
 **Can I use it for my ActivityPub needs?**
 
