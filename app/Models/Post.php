@@ -76,15 +76,15 @@ class Post extends Model
                 'conversation' => 'tag:' . config('bugle.domain.host') . ',' . $this->created_at->format('Y-m-d') . ':objectId=' . $this->id . ':objectType=Conversation',
                 'content' => $content,
                 'contentMap' => ['en' => $content],
-                'attachment' => $this->post->attachments->map(function (Attachment $attachment) {
+                'attachment' => $this->attachments->map(function (Attachment $attachment) {
                     return [
                         "type" => "Document",
-                        "mediaType" => $this->post->attachment->mime,
-                        "url" => $this->post->attachment->getFullUrl(),
-                        "name" => $this->post->attachment->alt,
-                        'blurhash' => $this->post->attachment->blurhash,
-                        'width' => $this->post->attachment->width,
-                        'height' => $this->post->attachment->height,
+                        "mediaType" => $attachment->mime,
+                        "url" => $attachment->getFullUrl(),
+                        "name" => $attachment->alt,
+                        'blurhash' => $attachment->blurhash,
+                        'width' => $attachment->width,
+                        'height' => $attachment->height,
                     ];
                 })->toArray(),
                 'tag' => $tags,
