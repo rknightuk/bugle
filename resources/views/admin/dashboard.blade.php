@@ -74,14 +74,14 @@ miette, her eyes enormous: you KICK miette? you kick her body like the football?
                 </div>
             @endforeach
 
-            <div class="field">
+            {{-- <div class="field">
                 <label>Visibility</label>
                 <select name="visibility" disabled>
                     <option value="0">Public</option>
                     <option value="1">Unlisted</option>
                     <option value="2">Private</option>
                 </select>
-            </div>
+            </div> --}}
 
             <div class="field">
                 <label>Pinned to profile</label>
