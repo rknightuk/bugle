@@ -17,7 +17,7 @@ class NotifyFollowers implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Post $post, private Follower $follower) {}
+    public function __construct(private Post $post, private string $follower, private ?bool $toGlobalInbox = false) {}
 
     public function handle(): void
     {
@@ -28,7 +28,7 @@ class NotifyFollowers implements ShouldQueue
         $id = $this->post->profile->getProfileUrl($this->post->uuid);
         $profileUrl = $this->post->profile->getProfileUrl();
         $to = ['https://www.w3.org/ns/activitystreams#Public'];
-        $cc = [$this->post->profile->getProfileUrl('followers'), $this->follower->follower];
+        $cc = [$this->post->profile->getProfileUrl('followers'), $this->follower];
 
         $message = [
             '@context' => 'https://www.w3.org/ns/activitystreams',
@@ -57,13 +57,19 @@ class NotifyFollowers implements ShouldQueue
                         'width' => $attachment->width,
                         'height' => $attachment->height,
                     ];
-                })->toArray()
+                })->toArray(),
+                'tag' => $tags,
             ],
         ];
 
-        $urlParts = parse_url($this->follower->follower);
+        $urlParts = parse_url($this->follower);
         $targetDomain = $urlParts['scheme'] . '://' . $urlParts['host'];
         $inboxFragment = $urlParts['path'] . '/inbox';
+
+        if ($this->toGlobalInbox)
+        {
+            $inboxFragment = '/inbox';
+        }
 
         $headers = HttpSignature::generateHeaders(
             $message,

@@ -27,24 +27,26 @@ class PostController extends Controller
 
         $attachments = $request->file('attachments');
 
-        foreach ($attachments as $i => $attachment)
+        if (!is_null($attachments))
         {
-            if (is_null($attachment)) continue;
+            foreach ($attachments as $i => $attachment) {
+                if (is_null($attachment)) continue;
 
-            $extension = $attachment->extension();
-            $mimeType = $attachment->getMimeType();
-            $dimensions = $attachment->dimensions();
-            $attachmentPath = $attachment->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
+                $extension = $attachment->extension();
+                $mimeType = $attachment->getMimeType();
+                $dimensions = $attachment->dimensions();
+                $attachmentPath = $attachment->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
 
-            $post->attachments()->create([
-                'profile_id' => $profile->id,
-                'file' => $attachmentPath,
-                'alt' => $request->input('attachment_alt')[$i] ?? '',
-                'mime' => $mimeType,
-                'width' => $dimensions[0],
-                'height' => $dimensions[1],
-                'blurhash' => $this->blurhash->encode($attachment),
-            ]);
+                $post->attachments()->create([
+                    'profile_id' => $profile->id,
+                    'file' => $attachmentPath,
+                    'alt' => $request->input('attachment_alt')[$i] ?? '',
+                    'mime' => $mimeType,
+                    'width' => $dimensions[0],
+                    'height' => $dimensions[1],
+                    'blurhash' => $this->blurhash->encode($attachment),
+                ]);
+            }
         }
 
         PostChanged::dispatch($post);

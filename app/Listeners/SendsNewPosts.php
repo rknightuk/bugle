@@ -17,7 +17,11 @@ class SendsNewPosts
     {
         foreach ($event->post->profile->followers as $follower)
         {
-            NotifyFollowers::dispatch($event->post, $follower);
+            NotifyFollowers::dispatch($event->post, $follower->follower);
+        }
+
+        foreach ($event->post->formatContent()[1] as $mention) {
+            NotifyFollowers::dispatch($event->post, $mention['href'], true);
         }
     }
 }
