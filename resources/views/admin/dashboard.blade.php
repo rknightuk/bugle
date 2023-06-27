@@ -97,7 +97,6 @@ miette, her eyes enormous: you KICK miette? you kick her body like the football?
     <div class="admin_activity">
 
     @foreach ($activity as $a)
-    {{ $a->getActorFullUsername() }}
         <p><a href="{{ $a->actor }}">{{ $a->getActorUsername() }}</a> {{ $a->getType() }} @if ($a->post) to <a href="/{{"@" . $profile->username}}/{{ $a->post->uuid}}">your post</a> @endif @if ($a->url)<a href="{{ $a->url}}">{{ $a->created_at->diffForHumans() }}</a>@else{{ $a->created_at->diffForHumans() }}@endif @if ($a->isReply())<a class="reply-to-mention" href="" data-id="{{ $a->ap_id }}" data-username="{{ $a->getActorFullUsername() }}">Reply</a>@endif</p>
         @if($a->isReply())
             <div class="activity_reply">
