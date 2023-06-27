@@ -8,12 +8,13 @@
 - Send toots (with Markdown!)
 - See replies, boosts, and likes
 - Attach photos to toots
--  Reply or @mention people in toots
+- Reply or @mention people in toots
+- Edit toots
 
 **What doesn't it do?**
 
 - Use this with your mastodon client
-- Edit toots (edit works, but your followers will never see it) \*
+- Show featured posts on profile
 
 **Can I use it for my ActivityPub needs?**
 

@@ -25,6 +25,11 @@ class NotifyFollowers implements ShouldQueue
 
         [$content, $tags] = $this->post->formatContent();
 
+        if ($isEdit = $this->post->created_at->toIsoString() !== $this->post->updated_at->toIsoString())
+        {
+            $type = 'Update';
+        }
+
         $id = $this->post->profile->getProfileUrl($this->post->uuid);
         $profileUrl = $this->post->profile->getProfileUrl();
         $to = ['https://www.w3.org/ns/activitystreams#Public'];
@@ -42,6 +47,7 @@ class NotifyFollowers implements ShouldQueue
                 'type' => 'Note',
                 'inReplyTo' => $this->post->reply_to,
                 'published' => str_replace('+00:00', 'Z', $this->post->created_at->toIso8601String()),
+                'updated' => $this->post->updated_at ? str_replace('+00:00', 'Z', $this->post->updated_at->toIso8601String()) : null,
                 'attributedTo' => $profileUrl,
                 'content' => $content,
                 'to' => $to,

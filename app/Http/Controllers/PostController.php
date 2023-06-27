@@ -67,7 +67,9 @@ class PostController extends Controller
     {
         $profile = $this->findProfile($username);
 
-        $profile->posts()->where('id', $postId)->update([
+        $post = $profile->posts()->where('id', $postId)->first();
+
+        $post->update([
             'content' => $request->input('content'),
             'featured' => $request->input('featured') === 'on',
             'visibility' => $request->input('visibility') ?? 0,
@@ -75,7 +77,7 @@ class PostController extends Controller
             'spoiler_text' => $request->input('spoiler_text'),
         ]);
 
-        // TODO notify followers of the edit
+        PostChanged::dispatch($post);
 
         return redirect('/dashboard/@' . $username)->with('success', 'Toot updated!');
     }
