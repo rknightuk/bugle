@@ -74,7 +74,7 @@ class HttpSignature {
         $str = implode("\n", $expectedHeaders);
 
         $keyId = $signatureHeaderMap['keyId'];
-        $actor = Http::accept('application/activity+json ')->get($keyId);
+        $actor = Http::accept('application/activity+json')->get($keyId);
 
         $publicKeyPem = $actor['publicKey']['publicKeyPem'];
         $verifier = openssl_get_publickey($publicKeyPem);
