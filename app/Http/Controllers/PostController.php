@@ -29,15 +29,17 @@ class PostController extends Controller
 
         foreach ($attachments as $i => $attachment)
         {
+            if (is_null($attachment)) continue;
+
             $extension = $attachment->extension();
             $mimeType = $attachment->getMimeType();
             $dimensions = $attachment->dimensions();
             $attachmentPath = $attachment->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
 
-            $post->attachment()->create([
+            $post->attachments()->create([
                 'profile_id' => $profile->id,
                 'file' => $attachmentPath,
-                'alt' => $request->input('attachment_alt'),
+                'alt' => $request->input('attachment_alt')[$i] ?? '',
                 'mime' => $mimeType,
                 'width' => $dimensions[0],
                 'height' => $dimensions[1],

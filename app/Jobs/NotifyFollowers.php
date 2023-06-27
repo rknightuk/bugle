@@ -50,12 +50,12 @@ class NotifyFollowers implements ShouldQueue
                 'attachment' => $this->post->attachments->map(function(Attachment $attachment) {
                     return [
                         "type" => "Document",
-                        "mediaType" => $this->post->attachment->mime,
-                        "url" => $this->post->attachment->getFullUrl(),
-                        "name" => $this->post->attachment->alt,
-                        'blurhash' => $this->post->attachment->blurhash,
-                        'width' => $this->post->attachment->width,
-                        'height' => $this->post->attachment->height,
+                        "mediaType" => $attachment->mime,
+                        "url" => $attachment->getFullUrl(),
+                        "name" => $attachment->alt,
+                        'blurhash' => $attachment->blurhash,
+                        'width' => $attachment->width,
+                        'height' => $attachment->height,
                     ];
                 })->toArray()
             ],
