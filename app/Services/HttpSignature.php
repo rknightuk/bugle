@@ -72,7 +72,6 @@ class HttpSignature {
         }
 
         $str = implode("\n", $expectedHeaders);
-        $str = str_replace('knightpub.test', 'knightpub.sharedwithexpose.com', $str);
 
         $keyId = $signatureHeaderMap['keyId'];
         $actor = Http::accept('application/activity+json ')->get($keyId);
