@@ -33,9 +33,9 @@ class Post extends Model
         return $this->hasMany(Activity::class);
     }
 
-    public function attachment()
+    public function attachments()
     {
-        return $this->hasOne(Attachment::class);
+        return $this->hasMany(Attachment::class);
     }
 
     public function formatContent()
@@ -76,7 +76,17 @@ class Post extends Model
                 'conversation' => 'tag:' . config('bugle.domain.host') . ',' . $this->created_at->format('Y-m-d') . ':objectId=' . $this->id . ':objectType=Conversation',
                 'content' => $content,
                 'contentMap' => ['en' => $content],
-                'attachment' => [],
+                'attachment' => $this->post->attachments->map(function (Attachment $attachment) {
+                    return [
+                        "type" => "Document",
+                        "mediaType" => $this->post->attachment->mime,
+                        "url" => $this->post->attachment->getFullUrl(),
+                        "name" => $this->post->attachment->alt,
+                        'blurhash' => $this->post->attachment->blurhash,
+                        'width' => $this->post->attachment->width,
+                        'height' => $this->post->attachment->height,
+                    ];
+                })->toArray(),
                 'tag' => $tags,
                 'replies' => [
                     'id' =>

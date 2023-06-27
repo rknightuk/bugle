@@ -43,6 +43,7 @@ a:hover {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
 .admin_profile {
@@ -72,4 +73,12 @@ a:hover {
 footer {
     text-align: center;
     margin-top: 20px;
+}
+
+details {
+    margin: 15px 0;
+}
+
+summary {
+    margin-bottom: 10px;
 }

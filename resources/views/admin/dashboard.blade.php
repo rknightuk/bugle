@@ -50,33 +50,39 @@ miette, her eyes enormous: you KICK miette? you kick her body like the football?
         </div>
 
         <div class="field">
-            <label>Attachment</label>
-            <input type="file" name="attachment">
-        </div>
-
-        <div class="field">
-            <label>Attachment Alt Text</label>
-            <input type="text" name="attachment_alt">
-        </div>
-
-        <div class="field">
-            <label>Visibility</label>
-            <select name="visibility" disabled>
-                <option value="0">Public</option>
-                <option value="1">Unlisted</option>
-                <option value="2">Private</option>
-            </select>
-        </div>
-
-        <div class="field">
             <label>Content Warning</label>
             <input type="text" name="spoiler_text" placeholder="spiders">
         </div>
 
-        <div class="field">
-            <label>Pinned to profile</label>
-            <input type="checkbox" name="featured">
-        </div>
+        <details>
+         <summary>Attachments</summary>
+
+            @foreach (range(0, 3) as $i => $attachment)
+                <div class="field">
+                    <label>Attachment {{ $i + 1 }}</label>
+                    <input type="file" name="attachments[{{ $i }}]">
+                </div>
+
+                <div class="field">
+                    <label>Attachment {{ $i + 1 }} Alt Text</label>
+                    <input type="text" name="attachment_alt[{{ $i }}]">
+                </div>
+            @endforeach
+
+            <div class="field">
+                <label>Visibility</label>
+                <select name="visibility" disabled>
+                    <option value="0">Public</option>
+                    <option value="1">Unlisted</option>
+                    <option value="2">Private</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Pinned to profile</label>
+                <input type="checkbox" name="featured">
+            </div>
+        </details>
 
         <input type="submit" value="Send Toot" class="button">
     </form>

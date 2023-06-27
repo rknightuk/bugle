@@ -25,12 +25,14 @@ class PostController extends Controller
             'spoiler_text' => $request->input('spoiler_text'),
         ]);
 
-        if ($request->file('attachment'))
+        $attachments = $request->file('attachments');
+
+        foreach ($attachments as $i => $attachment)
         {
-            $extension = $request->file('attachment')->extension();
-            $mimeType = $request->file('attachment')->getMimeType();
-            $dimensions = $request->file('attachment')->dimensions();
-            $attachmentPath = $request->file('attachment')->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
+            $extension = $attachment->extension();
+            $mimeType = $attachment->getMimeType();
+            $dimensions = $attachment->dimensions();
+            $attachmentPath = $attachment->storePubliclyAs('posts', $post->id . '-' . time() . '.' . $extension);
 
             $post->attachment()->create([
                 'profile_id' => $profile->id,
@@ -39,7 +41,7 @@ class PostController extends Controller
                 'mime' => $mimeType,
                 'width' => $dimensions[0],
                 'height' => $dimensions[1],
-                'blurhash' => $this->blurhash->encode($request->file('attachment')),
+                'blurhash' => $this->blurhash->encode($attachment),
             ]);
         }
 

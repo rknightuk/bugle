@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Attachment;
 use App\Models\Follower;
 use App\Models\Post;
 use App\Services\HttpSignature;
@@ -46,15 +47,17 @@ class NotifyFollowers implements ShouldQueue
                 'cc' => $cc,
                 'senstive' => (bool) $this->post->sensitive,
                 'summary' => $this->post->spoiler_text,
-                'attachment' => $this->post->attachment ? [
-                    "type" => "Document",
-                    "mediaType" => $this->post->attachment->mime,
-                    "url" => $this->post->attachment->getFullUrl(),
-                    "name" => $this->post->attachment->alt,
-                    'blurhash' => $this->post->attachment->blurhash,
-                    'width' => $this->post->attachment->width,
-                    'height' => $this->post->attachment->height,
-                ] : [],
+                'attachment' => $this->post->attachments->map(function(Attachment $attachment) {
+                    return [
+                        "type" => "Document",
+                        "mediaType" => $this->post->attachment->mime,
+                        "url" => $this->post->attachment->getFullUrl(),
+                        "name" => $this->post->attachment->alt,
+                        'blurhash' => $this->post->attachment->blurhash,
+                        'width' => $this->post->attachment->width,
+                        'height' => $this->post->attachment->height,
+                    ];
+                })->toArray()
             ],
         ];
 
