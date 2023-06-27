@@ -7,11 +7,11 @@
 - Avatar and header images
 - Send toots (with Markdown!)
 - See replies, boosts, and likes
-- Attach a single photo to toots
+- Attach photos to toots
+-  Reply or @mention people in toots
 
 **What doesn't it do?**
 
-- Reply or @mention people in toots
 - Use this with your mastodon client
 - Edit toots (edit works, but your followers will never see it) \*
 

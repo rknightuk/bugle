@@ -16,10 +16,11 @@
         <ul class="fa-ul">
             <li><span class="fa-li"><i class="fad fa-user"></i></span>Create ActivityPub profiles</li>
             <li><span class="fa-li"><i class="fad fa-link"></i></span>Mastodon profile links</li>
-            <li><span class="fa-li"><i class="fad fa-images"></i></span>Avatar and header images</li>
+            <li><span class="fa-li"><i class="fad fa-portrait"></i></span>Avatar and header images</li>
             <li><span class="fa-li"><i class="fad fa-envelope-open-text"></i></span>Send toots (with Markdown!)</li>
             <li><span class="fa-li"><i class="fad fa-heart-circle"></i></span>See replies, boosts, and likes</li>
-            <li><span class="fa-li"><i class="fad fa-images"></i></span>Attach a photo to toots</li>
+            <li><span class="fa-li"><i class="fad fa-images"></i></span>Attach photos to toots</li>
+            <li><span class="fa-li"><i class="fad fa-at"></i></span>Reply and @mention people in toots*</li>
         </ul>
 
         <p><i class="fad fa-trumpet"></i> <a href="/@bugle">View @bugle's profile</a></li>
@@ -27,7 +28,6 @@
         <h3>What <em>doesn't</em> it do?</h3>
         <ul class="fa-ul">
             <li><span class="fa-li"><i class="fad fa-envelope-open-text"></i></span>Use this with your mastodon client</li>
-            <li><span class="fa-li"><i class="fad fa-user"></i></span>Reply and @mention people in toots*</li>
             <li><span class="fa-li"><i class="fad fa-heart-circle"></i></span>Edit toots (edit works, but your followers will never see it)*</li>
         </ul>
 
