@@ -23,6 +23,7 @@ class PostController extends Controller
             'visibility' => $request->input('visibility') ?? 0,
             'sensitive' => $request->has('spoiler_text'),
             'spoiler_text' => $request->input('spoiler_text'),
+            'reply_to' => $request->input('reply_to', null),
         ]);
 
         $attachments = $request->file('attachments');

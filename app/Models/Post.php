@@ -66,6 +66,7 @@ class Post extends Model
                 'summary' => null,
                 'inReplyTo' => null,
                 'published' => str_replace('+00:00', 'Z', $this->created_at->toIso8601String()),
+                'inReplyTo' => $this->reply_to,
                 'url' => $profile->getProfileUrl($this->uuid),
                 'attributedTo' => $profile->getProfileUrl(),
                 'to' => ['https://www.w3.org/ns/activitystreams#Public'],

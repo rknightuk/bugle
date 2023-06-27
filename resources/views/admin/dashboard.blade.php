@@ -43,6 +43,11 @@
         </div>
 
         <div class="field">
+            <label>Replying to</label>
+            <input type="text" name="reply_to">
+        </div>
+
+        <div class="field">
             <label>Toot Content</label>
             <textarea name="content" maxlength="500" placeholder="me, lightly touching miette with the side of my foot: miette move out of the way please so I don’t trip on you
 
@@ -92,14 +97,27 @@ miette, her eyes enormous: you KICK miette? you kick her body like the football?
     <div class="admin_activity">
 
     @foreach ($activity as $a)
-        <p><a href="{{ $a->actor }}">{{ $a->getActorUsername() }}</a> {{ $a->getType() }} @if ($a->post) to <a href="/{{"@" . $profile->username}}/{{ $a->post->uuid}}">your post</a> @endif @if ($a->url)<a href="{{ $a->url}}">{{ $a->created_at->diffForHumans() }}</a>@else{{ $a->created_at->diffForHumans() }}@endif</p>
+    {{ $a->getActorFullUsername() }}
+        <p><a href="{{ $a->actor }}">{{ $a->getActorUsername() }}</a> {{ $a->getType() }} @if ($a->post) to <a href="/{{"@" . $profile->username}}/{{ $a->post->uuid}}">your post</a> @endif @if ($a->url)<a href="{{ $a->url}}">{{ $a->created_at->diffForHumans() }}</a>@else{{ $a->created_at->diffForHumans() }}@endif @if ($a->isReply())<a class="reply-to-mention" href="" data-id="{{ $a->ap_id }}" data-username="{{ $a->getActorFullUsername() }}">Reply</a>@endif</p>
         @if($a->isReply())
-        <div class="activity_reply">
-            {!! $a->content !!}
-        </div>
+            <div class="activity_reply">
+                {!! $a->content !!}
+            </div>
         @endif
     @endforeach
 
     </div>
+
+    <script>
+        Array.from(document.getElementsByClassName('reply-to-mention')).map((el) => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault()
+                const replyTo = el.dataset.id.replace('/activity', '')
+                const username = el.dataset.username
+                document.getElementsByName('reply_to')[0].value = replyTo
+                document.getElementsByName('content')[0].value = `${username} `
+            })
+        })
+    </script>
 
 @endsection

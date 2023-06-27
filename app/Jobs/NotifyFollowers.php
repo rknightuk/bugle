@@ -40,6 +40,7 @@ class NotifyFollowers implements ShouldQueue
             'object' => [
                 'id' => $id,
                 'type' => 'Note',
+                'inReplyTo' => $this->post->reply_to,
                 'published' => str_replace('+00:00', 'Z', $this->post->created_at->toIso8601String()),
                 'attributedTo' => $profileUrl,
                 'content' => $content,

@@ -51,6 +51,14 @@ class Activity extends Model
         return '@' . $x[array_key_last($x)];
     }
 
+    public function getActorFullUsername()
+    {
+        $parts = explode('/', $this->actor);
+        $urlParts = parse_url($this->actor);
+
+        return '@' . $parts[array_key_last($parts)] . '@' . $urlParts['host'];
+    }
+
     public function isReply()
     {
         return $this->type === self::TYPE_REPLY;
