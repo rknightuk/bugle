@@ -20,11 +20,25 @@
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
 
-        <meta property="og:title" content="Bugle" />
-        <meta property="description" content="A minimal ActivityPub server built with Laravel" />
-		<meta property="og:description" content="A minimal ActivityPub server built with Laravel" />
-		<meta property="og:type" content="article" />
-		<meta property="og:url" content="{{ Request::url() }}" />
+        @if (isset($profile))
+            <meta property="og:title" content="Bugle - @yield('title')" />
+            @if (isset($post))
+                <meta property="description" content="{{ strip_tags($post->formatContent()[0]) }}" />
+                <meta property="og:description" content="{{ strip_tags($post->formatContent()[0]) }}" />
+            @else
+                <meta property="description" content="{{ strip_tags($profile->formatBio()) }}" />
+                <meta property="og:description" content="{{ strip_tags($profile->formatBio()) }}" />
+            @endif
+            <meta property="og:type" content="article" />
+            <meta property="og:url" content="{{ Request::url() }}" />
+            <meta property="og:image" content="{{ $profile->getAvatarPath() }}">
+        @else
+            <meta property="og:title" content="Bugle - @yield('title')" />
+            <meta property="description" content="A minimal ActivityPub server built with Laravel" />
+            <meta property="og:description" content="A minimal ActivityPub server built with Laravel" />
+            <meta property="og:type" content="article" />
+            <meta property="og:url" content="{{ Request::url() }}" />
+        @endif
 
     </head>
     <body>

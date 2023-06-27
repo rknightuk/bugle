@@ -33,13 +33,13 @@
         @if (!isset($singleToot))
             <h3>Toots</h3>
         @endif
-        @foreach ($posts as $post)
+        @foreach ($posts as $p)
             <div class="public_post">
-                {!! $post->formatContent()[0] !!}
-                <p class="post_date">{{ $post->created_at }} <a href="/{{"@"}}{{ $profile->username }}/{{ $post->uuid }}">Permalink</a></p>
-                @if ($post->attachments->count())
+                {!! $p->formatContent()[0] !!}
+                <p class="post_date">{{ $p->created_at }} <a href="/{{"@"}}{{ $profile->username }}/{{ $p->uuid }}">Permalink</a></p>
+                @if ($p->attachments->count())
                     <div class="public_post_images">
-                        @foreach ($post->attachments as $attachment)
+                        @foreach ($p->attachments as $attachment)
                             <div>
                                 <a target="_blank" href="{{$attachment->getFullUrl()}}"><img src="{{ $attachment->getFullUrl()}}"></a>
                             </div>
@@ -51,7 +51,7 @@
         @endforeach
         @if (isset($singleToot))
             <h3>Activity</h3>
-            @foreach ($post->activities as $a)
+            @foreach ($p->activities as $a)
                 <p><a href="{{ $a->actor }}">{{ $a->getActorUsername() }}</a> {{ $a->getType() }} @if ($a->url)<a href="{{ $a->url}}">{{ $a->created_at->diffForHumans() }}</a>@else{{ $a->created_at->diffForHumans() }}@endif</p>
                 @if($a->isReply())
                     <div class="activity_reply">

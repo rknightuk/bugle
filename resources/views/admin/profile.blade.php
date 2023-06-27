@@ -8,7 +8,26 @@
 
     <p><a href="/dashboard">&laquo; Dashboard</a></p>
 
-    @include('includes.profile_header')
+    <header class="pub_profile_header">
+        <div class="pub_profile_header_image">
+            @if ($profile->header) <img src="{{ $profile->getHeaderPath() }}"> @endif
+        </div>
+        <div class="pub_profile_header_avatar">
+            <img src="{{ $profile->getAvatarPath() }}" width="100">
+        </div>
+
+        <h2>{{ $profile->name }}</h2>
+        <p><a href="/{{"@"}}{{ $profile->username }}" target="_blank">{{ $profile->getAPUsername() }}</a>
+        {!! $profile->formatBio() !!}
+
+        @foreach ($profile->links as $link)
+            <p>{{ $link->title }}: @if ($link->isUrl())<a href="{{ $link->link}}">{{ $link->link}}</a>@else{{ $link->link}}@endif</p>
+        @endforeach
+
+        @if ($profile->followers->count())
+            <p><strong>{{ $profile->followers->count() }} follower{{ $profile->followers->count() > 1 ? 's' : ''}}</strong></p>
+        @endif
+    </header>
 
     <details>
         <summary>Edit Profile</summary>

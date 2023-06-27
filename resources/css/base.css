@@ -22,7 +22,7 @@ body {
 
 .content {
     padding: 15px;
-    max-width: 800px;
+    max-width: 650px;
     margin: 0 auto;
 }
 
@@ -40,13 +40,21 @@ a:hover {
 }
 
 .admin_profiles {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    grid-gap: 20px;
+    margin-bottom: 20px;
 }
 
-.admin_profile {
+@media (max-width: 400px) {
+    .admin_profiles {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.admin_profile img {
+    border-radius: 50px;
     max-width: 100px;
 }
 
@@ -57,6 +65,7 @@ a:hover {
 
 .admin_profile_header img {
     margin-right: 20px;
+    border-radius: 50px;
 }
 
 .post_date {

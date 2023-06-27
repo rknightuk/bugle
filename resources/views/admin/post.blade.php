@@ -8,7 +8,7 @@
 
     <p><a href="/dashboard/{{"@"}}{{ $profile->username }}">&laquo; {{"@"}}{{ $profile->username }}</a></p>
 
-    @include('includes.profile_header')
+    <h2>Edit Toot</h2>
 
     <form class="ui form" method="post">
         <div class="field">

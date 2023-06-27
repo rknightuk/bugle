@@ -117,14 +117,14 @@ class AdminController extends Controller
 
         if ($request->file('avatar')) {
             $extension = $request->file('avatar')->extension();
-            $avatarPath = $request->file('avatar')->storePubliclyAs('avatars', $profile->username . '-' . time() . '-.' . $extension);
+            $avatarPath = $request->file('avatar')->storePubliclyAs('avatars', $profile->username . '-' . time() . $extension);
             $profile->avatar = $avatarPath;
             $changed = true;
         }
 
         if ($request->file('header')) {
             $extension = $request->file('header')->extension();
-            $headerPath = $request->file('header')->storePubliclyAs('headers', $profile->username . '-' . time() . '-.' . $extension);
+            $headerPath = $request->file('header')->storePubliclyAs('headers', $profile->username . '-' . time() . $extension);
             $profile->header = $headerPath;
             $changed = true;
         }

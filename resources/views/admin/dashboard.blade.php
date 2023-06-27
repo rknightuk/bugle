@@ -12,7 +12,7 @@
         @foreach ($profiles as $profile)
             <div class="admin_profile">
                 <a href="/dashboard/{{"@"}}{{ $profile->username }}">
-                    <img src="{{ $profile->getAvatarPath() }}" width="100">
+                    <img src="{{ $profile->getAvatarPath() }}">
                     <div>{{"@"}}{{ $profile->username }}</div>
                 </a>
             </div>
