@@ -13,10 +13,9 @@ class ProfileController extends Controller
     public function show(string $username, Request $request)
     {
         $profile = $this->findProfile($username);
-        $profilePath = config('bugle.domain.full') . '/@' . $username;
 
         if ($request->expectsJson()) {
-            return $this->jsonProfile($profile, $profilePath);
+            return $this->jsonProfile($profile);
         }
 
         $posts = $profile->posts()->orderBy('id', 'desc')->get();
@@ -167,7 +166,7 @@ class ProfileController extends Controller
     }
 
 
-    private function jsonProfile(Profile $profile, string $profilePath)
+    private function jsonProfile(Profile $profile)
     {
         return [
             '@context' => [
@@ -230,24 +229,24 @@ class ProfileController extends Controller
                     ],
                 ],
             ],
-            'id' => $profilePath,
+            'id' => $profile->getProfileUrl(),
             'type' => 'Person',
-            'following' => $profilePath . '/following',
-            'followers' => $profilePath . '/followers',
-            'inbox' => $profilePath . '/inbox',
-            'outbox' => $profilePath . '/outbox',
-            'featured' => $profilePath . '/collections/featured',
-            'featuredTags' => $profilePath . '/collections/tags',
+            'following' => $profile->getProfileUrl('following'),
+            'followers' => $profile->getProfileUrl('followers'),
+            'inbox' => $profile->getProfileUrl('inbox'),
+            'outbox' => $profile->getProfileUrl('outbox'),
+            'featured' => $profile->getProfileUrl('collections/featured'),
+            'featuredTags' => $profile->getProfileUrl('collections/tags'),
             'preferredUsername' => $profile->username,
             'name' => $profile->name,
             'summary' => $profile->formatBio(),
-            'url' => $profilePath,
+            'url' => $profile->getProfileUrl(),
             'manuallyApprovesFollowers' => false,
             'discoverable' => true,
             'published' => '2022-12-16T00:00:00Z',
             'publicKey' => [
-                'id' => $profilePath . '#main-key',
-                'owner' => $profilePath,
+                'id' => $profile->getProfileUrl('#main-key'),
+                'owner' => $profile->getProfileUrl(),
                 'publicKeyPem' => $profile->key_pub,
             ],
             'tag' => [],

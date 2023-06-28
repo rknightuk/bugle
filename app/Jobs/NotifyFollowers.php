@@ -25,7 +25,7 @@ class NotifyFollowers implements ShouldQueue
 
         [$content, $tags] = $this->post->formatContent();
 
-        if ($isEdit = $this->post->created_at->toIsoString() !== $this->post->updated_at->toIsoString())
+        if ($isEdit = !$this->post->isDeleted() && $this->post->created_at->toIsoString() !== $this->post->updated_at->toIsoString())
         {
             $type = 'Update';
         }
@@ -42,31 +42,7 @@ class NotifyFollowers implements ShouldQueue
             'actor' => $profileUrl,
             'to' => $to,
             'cc' => $cc,
-            'object' => [
-                'id' => $id,
-                'type' => 'Note',
-                'inReplyTo' => $this->post->reply_to,
-                'published' => str_replace('+00:00', 'Z', $this->post->created_at->toIso8601String()),
-                'updated' => $this->post->updated_at ? str_replace('+00:00', 'Z', $this->post->updated_at->toIso8601String()) : null,
-                'attributedTo' => $profileUrl,
-                'content' => $content,
-                'to' => $to,
-                'cc' => $cc,
-                'senstive' => (bool) $this->post->sensitive,
-                'summary' => $this->post->spoiler_text,
-                'attachment' => $this->post->attachments->map(function(Attachment $attachment) {
-                    return [
-                        "type" => "Document",
-                        "mediaType" => $attachment->mime,
-                        "url" => $attachment->getFullUrl(),
-                        "name" => $attachment->alt,
-                        'blurhash' => $attachment->blurhash,
-                        'width' => $attachment->width,
-                        'height' => $attachment->height,
-                    ];
-                })->toArray(),
-                'tag' => $tags,
-            ],
+            'object' => $this->post->serialize($this->post->profile, [$this->follower]),
         ];
 
         $urlParts = parse_url($this->follower);

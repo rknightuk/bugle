@@ -48,61 +48,29 @@ class Post extends Model
         [$content, $tags] = $this->formatContent();
 
         return [
-            [
-                '@context' => [
-                    'https://www.w3.org/ns/activitystreams',
-                    [
-                        'ostatus' => 'http://ostatus.org#',
-                        'atomUri' => 'ostatus:atomUri',
-                        'inReplyToAtomUri' => 'ostatus:inReplyToAtomUri',
-                        'conversation' => 'ostatus:conversation',
-                        'sensitive' => 'as:sensitive',
-                        'toot' => 'http://joinmastodon.org/ns#',
-                        'votersCount' => 'toot:votersCount',
-                    ],
-                ],
-                'id' => $profile->getProfileUrl($this->uuid),
-                'type' => 'Note',
-                'summary' => null,
-                'inReplyTo' => null,
-                'published' => str_replace('+00:00', 'Z', $this->created_at->toIso8601String()),
-                'inReplyTo' => $this->reply_to,
-                'url' => $profile->getProfileUrl($this->uuid),
-                'attributedTo' => $profile->getProfileUrl(),
-                'to' => ['https://www.w3.org/ns/activitystreams#Public'],
-                'cc' => array_merge([$profile->getProfileUrl('followers')], $cc),
-                'sensitive' => false,
-                'atomUri' => $profile->getProfileUrl($this->uuid),
-                'inReplyToAtomUri' => null,
-                'conversation' => 'tag:' . config('bugle.domain.host') . ',' . $this->created_at->format('Y-m-d') . ':objectId=' . $this->id . ':objectType=Conversation',
-                'content' => $content,
-                'contentMap' => ['en' => $content],
-                'attachment' => $this->attachments->map(function (Attachment $attachment) {
-                    return [
-                        "type" => "Document",
-                        "mediaType" => $attachment->mime,
-                        "url" => $attachment->getFullUrl(),
-                        "name" => $attachment->alt,
-                        'blurhash' => $attachment->blurhash,
-                        'width' => $attachment->width,
-                        'height' => $attachment->height,
-                    ];
-                })->toArray(),
-                'tag' => $tags,
-                'replies' => [
-                    'id' =>
-                    $profile->getProfileUrl($this->uuid . '/replies'),
-                    'type' => 'Collection',
-                    'first' => [
-                        'type' => 'CollectionPage',
-                        'next' =>
-                        $profile->getProfileUrl() . '/' . $this->uuid . '/replies?only_other_accounts=true&page=true',
-                        'partOf' =>
-                        $profile->getProfileUrl() . '/' . $this->uuid . '/replies',
-                        'items' => [],
-                    ],
-                ],
-            ]
+            'id' => $this->profile->getProfileUrl($this->uuid),
+            'type' => 'Note',
+            'inReplyTo' => $this->reply_to,
+            'published' => str_replace('+00:00', 'Z', $this->created_at->toIso8601String()),
+            'updated' => $this->updated_at ? str_replace('+00:00', 'Z', $this->updated_at->toIso8601String()) : null,
+            'attributedTo' => $this->profile->getProfileUrl(),
+            'content' => $content,
+            'to' => ['https://www.w3.org/ns/activitystreams#Public'],
+            'cc' => array_merge([$this->profile->getProfileUrl('followers')], $cc),
+            'senstive' => (bool) $this->sensitive,
+            'summary' => $this->spoiler_text,
+            'attachment' => $this->attachments->map(function (Attachment $attachment) {
+                return [
+                    "type" => "Document",
+                    "mediaType" => $attachment->mime,
+                    "url" => $attachment->getFullUrl(),
+                    "name" => $attachment->alt,
+                    'blurhash' => $attachment->blurhash,
+                    'width' => $attachment->width,
+                    'height' => $attachment->height,
+                ];
+            })->toArray(),
+            'tag' => $tags,
         ];
     }
 
