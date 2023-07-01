@@ -4,6 +4,13 @@
 
 @section('content')
 
+    <div class="alert alert-success">
+        <i class="far fa-info-circle"></i>
+        <span class="alert-content">
+            Find us on Mastodon - search for <strong>{{ $profile->getAPUsername() }}</strong>
+        </span>
+    </div>
+
     <header class="pub_profile_header">
         <div class="pub_profile_header_image">
             @if ($profile->header) <img src="{{ $profile->getHeaderPath() }}"> @endif
