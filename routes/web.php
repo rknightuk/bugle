@@ -28,6 +28,8 @@ Route::get('/dashboard', function () {
 
 Route::get('.well-known/webfinger', [WebFingerController::class, 'index']);
 
+Route::post('@{username}', [PostController::class, 'createFromApi']);
+
 Route::get('@{username}', [ProfileController::class, 'show']);
 Route::get('@{username}/followers', [ProfileController::class, 'followers']);
 Route::get('@{username}/following', [ProfileController::class, 'following']);

@@ -4,12 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Events\PostChanged;
 use Bepsvpt\Blurhash\BlurHash;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
     public function __construct(private BlurHash $blurhash){}
+
+    public function createFromApi(string $username, Request $request)
+    {
+        $apiKey = $request->input('api_key');
+
+        if ($apiKey !== env('API_KEY'))
+        {
+            throw new Exception();
+        }
+
+        $profile = $this->findProfile($username);
+
+        $post = $profile->posts()->create([
+            'uuid' => Str::uuid(),
+            'content' => $request->input('content'),
+            'featured' => false,
+            'visibility' => 0,
+            'sensitive' => false,
+            'spoiler_text' => null,
+            'reply_to' => null,
+        ]);
+
+        PostChanged::dispatch($post);
+
+        return $post;
+    }
 
     public function create(Request $request)
     {
