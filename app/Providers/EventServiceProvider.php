@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\PostChanged;
+use App\Events\ProfileChanged;
+use App\Listeners\NotifiesProfileUpdates;
 use App\Listeners\SendsNewPosts;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,6 +32,11 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(
             PostChanged::class,
             [SendsNewPosts::class, 'handle']
+        );
+
+        Event::listen(
+            ProfileChanged::class,
+            [NotifiesProfileUpdates::class, 'handle']
         );
     }
 

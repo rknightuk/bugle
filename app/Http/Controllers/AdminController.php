@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProfileChanged;
 use App\Models\Activity;
 use App\Models\Profile;
 use App\Models\ProfileLink;
@@ -76,7 +77,6 @@ class AdminController extends Controller
         return redirect('/dashboard/@' . $username)->with('success', '@' . $username . ' created!');
     }
 
-    // TODO can I notify servers of profile change?
     public function updateProfile(string $username, Request $request)
     {
         $profile = $this->findProfile($username);
@@ -107,6 +107,8 @@ class AdminController extends Controller
         $profile->save();
 
         $profile = $this->assignImages($profile, $request);
+
+        ProfileChanged::dispatch($profile);
 
         return redirect('/dashboard/@' . $username)->with('success', '@' . $username . ' updated!');
     }

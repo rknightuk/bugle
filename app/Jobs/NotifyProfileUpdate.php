@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Attachment;
 use App\Models\Follower;
 use App\Models\Post;
+use App\Models\Profile;
 use App\Services\HttpSignature;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,51 +14,39 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 
-class NotifyFollowers implements ShouldQueue
+class NotifyProfileUpdate implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Post $post, private string $follower, private ?bool $toGlobalInbox = false) {}
+    public function __construct(private Profile $profile, private string $follower) {}
 
     public function handle(): void
     {
-        $type = $this->post->isDeleted() ? 'Delete' : 'Create';
-
-        if (!$this->post->isDeleted() && $this->post->created_at->toIsoString() !== $this->post->updated_at->toIsoString())
-        {
-            $type = 'Update';
-        }
-
-        $id = $this->post->profile->getProfileUrl($this->post->uuid);
-        $profileUrl = $this->post->profile->getProfileUrl();
+        $id = $this->profile->getProfileUrl();
+        $profileUrl = $this->profile->getProfileUrl();
         $to = ['https://www.w3.org/ns/activitystreams#Public'];
-        $cc = [$this->post->profile->getProfileUrl('followers'), $this->follower];
+        $cc = [$this->profile->getProfileUrl('followers'), $this->follower];
 
         $message = [
             '@context' => 'https://www.w3.org/ns/activitystreams',
             'id' => $id,
-            'type' => $type,
+            'type' => 'Update',
             'actor' => $profileUrl,
             'to' => $to,
             'cc' => $cc,
-            'object' => $this->post->serialize($this->post->profile, [$this->follower]),
+            'object' => $this->profile->serialize(),
         ];
 
         $urlParts = parse_url($this->follower);
         $targetDomain = $urlParts['scheme'] . '://' . $urlParts['host'];
         $inboxFragment = $urlParts['path'] . '/inbox';
 
-        if ($this->toGlobalInbox)
-        {
-            $inboxFragment = '/inbox';
-        }
-
         $headers = HttpSignature::generateHeaders(
             $message,
-            $this->post->profile->key_pri,
+            $this->profile->key_pri,
             $urlParts['host'],
             $inboxFragment,
-            config('bugle.domain.full') . '/@' . $this->post->profile->username,
+            config('bugle.domain.full') . '/@' . $this->profile->username,
         );
 
         $response = Http::withHeaders($headers)
