@@ -34,7 +34,7 @@ class PostController extends Controller
             'reply_to' => null,
         ]);
 
-        $image = $request->input('image');
+        $image = $request->input('image_upload');
 
         if ($image)
         {
