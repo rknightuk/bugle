@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['post' => $singleToot ? $posts[0] : null])
 
 @section('title', $profile->getAPUsername())
 

@@ -25,13 +25,14 @@
             @if (isset($post))
                 <meta property="description" content="{{ strip_tags($post->formatContent()[0]) }}" />
                 <meta property="og:description" content="{{ strip_tags($post->formatContent()[0]) }}" />
+                <meta property="og:image" content="{{ $post->firstImageOrAvatar() }}">
             @else
                 <meta property="description" content="{{ strip_tags($profile->formatBio()) }}" />
                 <meta property="og:description" content="{{ strip_tags($profile->formatBio()) }}" />
+                <meta property="og:image" content="{{ $profile->getAvatarPath() }}">
             @endif
             <meta property="og:type" content="article" />
             <meta property="og:url" content="{{ Request::url() }}" />
-            <meta property="og:image" content="{{ $profile->getAvatarPath() }}">
         @else
             <meta property="og:title" content="Bugle - @yield('title')" />
             <meta property="description" content="A minimal ActivityPub server built with Laravel" />

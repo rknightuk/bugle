@@ -78,4 +78,16 @@ class Post extends Model
     {
         return (bool) $this->deleted_at;
     }
+
+    public function firstImageOrAvatar()
+    {
+        $attachment = $this->attachments->first();
+
+        if ($attachment)
+        {
+            return $attachment->getFullUrl();
+        }
+
+        return $this->profile->getAvatarPath();
+    }
 }
