@@ -168,6 +168,6 @@ class ProfileController extends Controller
 
     private function jsonProfile(Profile $profile)
     {
-        return $profile->seralize();
+        return $profile->serialize();
     }
 }
