@@ -6,6 +6,7 @@ use App\Events\PostChanged;
 use Bepsvpt\Blurhash\BlurHash;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -32,6 +33,24 @@ class PostController extends Controller
             'spoiler_text' => null,
             'reply_to' => null,
         ]);
+
+        $image = $request->input('image');
+
+        if ($image)
+        {
+            $contents = file_get_contents($image);
+            $attachmentPath = 'posts/' . $post->id . '-' . time() . '.' . substr($image, strrpos($image, '/') + 1);
+            Storage::put($attachmentPath, $contents, 'public');
+            $post->attachments()->create([
+                'profile_id' => $profile->id,
+                'file' => $attachmentPath,
+                'alt' => $request->input('content'),
+                'mime' => 'image/jpeg',
+                'width' => 1024,
+                'height' => 1024,
+                'blurhash' => null,
+            ]);
+        }
 
         PostChanged::dispatch($post);
 
