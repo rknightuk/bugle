@@ -145,7 +145,7 @@ class Profile extends Model
             'url' => $this->getProfileUrl(),
             'manuallyApprovesFollowers' => false,
             'discoverable' => true,
-            'published' => '2022-12-16T00:00:00Z',
+            'published' => $this->created_at,
             'publicKey' => [
                 'id' => $this->getProfileUrl('#main-key'),
                 'owner' => $this->getProfileUrl(),
