@@ -50,6 +50,11 @@ class WebFingerController extends Controller
             'links' => [
                 [
                     'rel' => 'self',
+                    'type' => 'http://webfinger.net/rel/profile-page',
+                    'href' => $profile->getProfileUrl(),
+                ],
+                [
+                    'rel' => 'self',
                     'type' => 'application/activity+json',
                     'href' => $profile->getProfileUrl(),
                 ],

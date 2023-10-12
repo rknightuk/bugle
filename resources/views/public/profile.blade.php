@@ -4,10 +4,12 @@
 
 @section('content')
 
+    <a style="display:none" rel="me" href="{{ $profile->getProfileUrl() }}"></a>
+
     <div class="alert alert-success">
         <i class="far fa-info-circle"></i>
         <span class="alert-content">
-            Find us on Mastodon - search for <strong>{{ $profile->getAPUsername() }}</strong>
+            Find on Mastodon - search for <strong>{{ $profile->getAPUsername() }}</strong>
         </span>
     </div>
 
