@@ -13,26 +13,51 @@ class WebFingerController extends Controller
             abort(400);
         }
 
-        preg_match('/:(.*?)@/', $resource, $nameMatches);
-        $username = $nameMatches[1] ?? null;
+        $url = parse_url($resource);
+        $host = $url['host'] ?? null;
+        $path = $url['path'] ?? null;
 
-        preg_match('/@(.*)/', $resource, $domainMatches);
-        $domain = $domainMatches[1] ?? null;
-
-        if ($domain !== config('bugle.domain.host')) {
+        if (!$path)
+        {
             abort(400);
         }
 
+        if ($host !== config('bugle.domain.host')) {
+            abort(400);
+        }
+
+        $username = array_values(array_filter(explode('/', $path)))[0] ?? null;
+
+        if (empty($username))
+        {
+            abort(400);
+        }
+
+        $username = str_replace('@', '', $username);
+
         $profile = $this->findProfile($username);
 
+        if (is_null($profile))
+        {
+            abort(404);
+        }
+
         return [
-            'subject' => sprintf('acct:%s@%s', $username, $domain),
+            'subject' => sprintf('acct:%s@%s', $username, $host),
+            'aliases' => [
+                $profile->getProfileUrl()
+            ],
             'links' => [
                 [
                     'rel' => 'self',
                     'type' => 'application/activity+json',
-                    'href' => sprintf('https://%s/@%s', $domain, $username)
+                    'href' => $profile->getProfileUrl(),
                 ],
+                [
+                    'rel' => 'http://webfinger.net/rel/avatar',
+                    'type' => 'image/jpeg',
+                    'href' => $profile->getAvatarPath(),
+                ]
             ],
         ];
     }

@@ -76,6 +76,11 @@ class HttpSignature {
         $keyId = $signatureHeaderMap['keyId'];
         $actor = Http::accept('application/activity+json')->get($keyId);
 
+        if (!isset($actor['publicKey']))
+        {
+            return false;
+        }
+
         $publicKeyPem = $actor['publicKey']['publicKeyPem'];
         $verifier = openssl_get_publickey($publicKeyPem);
 
