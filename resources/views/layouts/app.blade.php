@@ -7,7 +7,7 @@
         <title>Bugle - @yield('title')</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=atkinson-hyperlegible:400,400i,700,700i|antonio:600" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=atkinson-hyperlegible:400,400i,700,700i" rel="stylesheet" />
 
         <script defer src="/assets/js/fa-all.min.js"></script>
 
