@@ -25,9 +25,15 @@ class Activity extends Model
         self::TYPE_BOOST => 'boosted',
     ];
 
+    const ICONS = [
+        self::TYPE_REPLY => 'comment',
+        self::TYPE_LIKE => 'star',
+        self::TYPE_BOOST => 'rocket',
+    ];
+
     public function profile()
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(Profile::class, 'id', 'profile_id');
     }
 
     public function post()
@@ -37,11 +43,21 @@ class Activity extends Model
 
     public function getType()
     {
-        if ($this->isReply() && is_null($this->post_id))
+        if ($this->isReply())
         {
-            return 'mentioned you';
+            if (is_null($this->post_id))
+            {
+                return sprintf('mentioned <a href="/@%s">@%s</a>', $this->profile->username,  $this->profile->username);
+            } else {
+                return self::NAMES[$this->type] . ' to';
+            }
         }
         return self::NAMES[$this->type];
+    }
+
+    public function getIcon()
+    {
+        return self::ICONS[$this->type];
     }
 
     public function getActorUsername()

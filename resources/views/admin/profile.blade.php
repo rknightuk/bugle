@@ -1,95 +1,114 @@
-@extends('layouts.app')
+@extends('layouts.app', ['profiles' => $profiles])
 
 @section('title', 'Dashboard')
 
 @section('content')
 
-    <h1>{{ $profile->getAPUsername() }}</h1>
+    <h1>{{ $currentProfile->name }}</h1>
 
-    <p><a href="/dashboard">&laquo; Dashboard</a></p>
+    <p>
+        <a href="/{{"@"}}{{ $currentProfile->username }}" target="_blank" class="button small">View Profile</a>
+    </p>
 
-    <header class="pub_profile_header">
-        <div class="pub_profile_header_image">
-            @if ($profile->header) <img src="{{ $profile->getHeaderPath() }}"> @endif
+    <h2>New Toot</h2>
+
+    @if (isset($replyingTo) && $replyingTo)
+        <div class="alert alert-success">
+            <i class="far fa-info-circle"></i>
+            <span class="alert-content">
+                <strong>Replying to <a target="_blank" href="{{ $replyingTo->url }}">{{ $replyingTo->getActorUsername() }}</a></strong>:<br>
+                {!! $replyingTo->content !!}
+            </span>
         </div>
-        <div class="pub_profile_header_avatar">
-            <img src="{{ $profile->getAvatarPath() }}" width="100">
+    @endif
+
+    <form method="POST" action="/dashboard/{{"@"}}{{ $currentProfile->username }}/posts" class="ui tiny form" enctype="multipart/form-data">
+        <input type="hidden" name="reply_to" value="@if (isset($replyingTo) && $replyingTo){{ str_replace('/activity', '', $replyingTo->ap_id) }}@endif">
+
+        <div class="field">
+            <label>Toot Content</label>
+            <textarea name="content" maxlength="500" placeholder="me, lightly touching miette with the side of my foot: miette move out of the way please so I don’t trip on you
+
+miette, her eyes enormous: you KICK miette? you kick her body like the football? oh! oh! jail for mother! jail for mother for One Thousand Years!!!!">@if (isset($mention) && $mention){{ $mention }} @endif</textarea>
         </div>
 
-        <h2>{{ $profile->name }}</h2>
-        <p><a href="/{{"@"}}{{ $profile->username }}" target="_blank">{{ $profile->getAPUsername() }}</a>
-        {!! $profile->formatBio() !!}
+        <div class="field">
+            <label>Content Warning</label>
+            <input type="text" name="spoiler_text" placeholder="spiders">
+        </div>
 
-        @foreach ($profile->links as $link)
-            <p>{{ $link->title }}: @if ($link->isUrl())<a href="{{ $link->link}}">{{ $link->link}}</a>@else{{ $link->link}}@endif</p>
-        @endforeach
+        <details>
+         <summary>Attachments</summary>
 
-        @if ($profile->followers->count())
-            <p><strong>{{ $profile->followers->count() }} follower{{ $profile->followers->count() > 1 ? 's' : ''}}</strong></p>
-        @endif
-    </header>
+            @foreach (range(0, 3) as $i => $attachment)
+                <div class="field">
+                    <label>Attachment {{ $i + 1 }}</label>
+                    <input type="file" name="attachments[{{ $i }}]">
+                </div>
 
-    <details>
-        <summary>Edit Profile</summary>
-        <form method="POST" action="/dashboard/{{"@"}}{{ $profile->username }}" class="ui form" enctype="multipart/form-data">
-            @csrf
-
-            <h3>Info</h3>
-
-            <div class="field">
-                <label>Name</label>
-                <input type="text" name="name" value="{{ $profile->name }}">
-            </div>
-
-            <div class="field">
-                <label>Bio</label>
-                <textarea name="bio" placeholder="Guitar player, skateboarder, time traveller">{{ $profile->bio }}</textarea>
-            </div>
-
-            <h3>Profile Metadata</h3>
-
-            @foreach ($links as $index => $link)
-                <div class="two fields">
-                    <div class="field" style="margin-right: 5px;">
-                        <input type="text" name="links[{{ $index }}][label]" placeholder="label" value="{{ $link['title'] }}">
-                    </div>
-                    <div style="width: 20px"></div>
-                    <div class="field">
-                        <input type="text" name="links[{{ $index }}][content]" placeholder="content" value="{{ $link['link'] }}">
-                    </div>
-
-                    <input type="hidden" name="links[{{ $index }}][id]" value="{{ $link['id'] }}">
+                <div class="field">
+                    <label>Attachment {{ $i + 1 }} Alt Text</label>
+                    <input type="text" name="attachment_alt[{{ $i }}]">
                 </div>
             @endforeach
 
-            <h3>Images</h3>
+            <div class="field">
+                <label>Pinned to profile</label>
+                <input type="checkbox" name="featured">
+            </div>
+        </details>
 
+        <input type="submit" value="Send Toot" class="button">
+    </form>
+
+    <h2>Edit Profile</h2>
+    <form method="POST" action="/dashboard/{{"@"}}{{ $currentProfile->username }}" class="ui form" enctype="multipart/form-data">
+        @csrf
+
+        <div class="field">
+            <label>Name</label>
+            <input type="text" name="name" value="{{ $currentProfile->name }}">
+        </div>
+
+        <div class="field">
+            <label>Bio</label>
+            <textarea name="bio" placeholder="Guitar player, skateboarder, time traveller">{{ $currentProfile->bio }}</textarea>
+        </div>
+
+        <h3>Profile Metadata</h3>
+
+        @foreach ($links as $index => $link)
             <div class="two fields">
+                <div class="field" style="margin-right: 5px;">
+                    <input type="text" name="links[{{ $index }}][label]" placeholder="label" value="{{ $link['title'] }}">
+                </div>
+                <div style="width: 20px"></div>
                 <div class="field">
-                    <label>Avatar</label>
-                    <input type="file" name="avatar">
+                    <input type="text" name="links[{{ $index }}][content]" placeholder="content" value="{{ $link['link'] }}">
                 </div>
 
-                <div style="width: 25px"></div>
+                <input type="hidden" name="links[{{ $index }}][id]" value="{{ $link['id'] }}">
+            </div>
+        @endforeach
 
-                <div class="field">
-                    <label>Header Image</label>
-                    <input type="file" name="header">
-                </div>
+        <h3>Images</h3>
+
+        <div class="two fields">
+            <div class="field">
+                <label>Avatar</label>
+                <input type="file" name="avatar">
             </div>
 
-            <input type="submit" value="Update Profile" class="button">
+            <div style="width: 25px"></div>
 
-        </form>
-    </details>
-
-    <h2>Toots</h2>
-
-    @foreach ($profile->posts()->orderBy('id', 'desc')->get() as $post)
-        <div>
-            {!! $post->formatContent()[0] !!}
-            <p class="post_date">{{ $post->created_at }} <a href="/dashboard/{{"@"}}{{ $profile->username }}/{{ $post->id }}">edit</a> <a href="/{{"@"}}{{ $profile->username }}/{{ $post->uuid }}">permalink</a></p>
+            <div class="field">
+                <label>Header Image</label>
+                <input type="file" name="header">
+            </div>
         </div>
-    @endforeach
+
+        <input type="submit" value="Update Profile" class="button">
+
+    </form>
 
 @endsection

@@ -1,5 +1,5 @@
 
-@extends('layouts.app')
+@extends('layouts.app', ['public' => true])
 
 @section('title', 'Dashboard')
 

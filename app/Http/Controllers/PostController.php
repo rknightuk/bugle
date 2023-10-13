@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostChanged;
+use App\Models\Profile;
 use Bepsvpt\Blurhash\BlurHash;
 use Exception;
 use Illuminate\Http\Request;
@@ -57,9 +58,8 @@ class PostController extends Controller
         return $post;
     }
 
-    public function create(Request $request)
+    public function create(string $username, Request $request)
     {
-        $username = $request->input('username');
         $profile = $this->findProfile($username);
 
         $post = $profile->posts()->create([
@@ -98,7 +98,7 @@ class PostController extends Controller
 
         PostChanged::dispatch($post);
 
-        return redirect('/dashboard/@' . $username)->with('success', 'Toot created!');
+        return redirect('/@' . $username . '/' . $post->uuid)->with('success', 'Toot created!');
     }
 
     public function showEdit(string $username, int $postId)
@@ -106,7 +106,11 @@ class PostController extends Controller
         $profile = $this->findProfile($username);
         $post = $profile->posts()->where('id', $postId)->first();
 
-        return view('admin.post', ['profile' => $profile, 'post' => $post]);
+        return view('admin.post', [
+            'profiles' => Profile::get(),
+            'currentProfile' => $profile,
+            'post' => $post
+        ]);
     }
 
     public function edit(string $username, int $postId, Request $request)

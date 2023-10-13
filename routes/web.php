@@ -4,7 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\WebFingerController;
+use App\Http\Controllers\WellKnownController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->with(['public' => true]);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('.well-known/webfinger', [WellKnownController::class, 'webfinger']);
+Route::get('.well-known/nodeinfo', [WellKnownController::class, 'nodeinfoBasic']);
+Route::get('nodeinfo/2.1', [WellKnownController::class, 'nodeinfo']);
 
-Route::get('.well-known/webfinger', [WebFingerController::class, 'index']);
+Route::get('timeline', [ProfileController::class, 'timeline']);
 
 Route::post('@{username}', [PostController::class, 'createFromApi']);
 
@@ -41,15 +41,19 @@ Route::post('inbox', [InboxController::class, 'globalInbox']);
 Route::post('@{username}/inbox', [InboxController::class, 'userInbox']);
 
 Route::middleware('auth')->group(function () {
-    Route::post('dashboard/posts', [PostController::class, 'create']);
+    Route::get('dashboard', [AdminController::class, 'dashboard']);
+
+    Route::get('dashboard/add', [AdminController::class, 'showCreateProfile']);
+    Route::post('dashboard/add', [AdminController::class, 'createProfile']);
+
+    Route::get('dashboard/@{username}', [AdminController::class, 'showProfile']);
+    Route::post('dashboard/@{username}', [AdminController::class, 'updateProfile']);
+
+    Route::post('dashboard/@{username}/posts', [PostController::class, 'create']);
+
     Route::get('dashboard/@{username}/{postId}', [PostController::class, 'showEdit']);
     Route::post('dashboard/@{username}/{postId}', [PostController::class, 'edit']);
     Route::delete('dashboard/@{username}/{postId}', [PostController::class, 'delete']);
-
-    Route::get('dashboard', [AdminController::class, 'dashboard']);
-    Route::get('dashboard/@{username}', [AdminController::class, 'showProfile']);
-    Route::post('dashboard', [AdminController::class, 'createProfile']);
-    Route::post('dashboard/@{username}', [AdminController::class, 'updateProfile']);
 });
 
 require __DIR__.'/auth.php';

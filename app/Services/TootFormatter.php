@@ -17,6 +17,7 @@ class TootFormatter {
 
         $content = nl2br($content);
         $content = str_replace("\n", '', $content);
+        $content = str_replace('</p><br /><p>', '</p><p>', $content);
 
         $tags = [];
 

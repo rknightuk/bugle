@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'version' => '1.0.0',
     'domain' => [
         'host' => env('DOMAIN'),
         'full' => 'https://' . env('DOMAIN'),

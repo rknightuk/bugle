@@ -43,6 +43,17 @@ class Post extends Model
         return TootFormatter::format($this->content);
     }
 
+    public function getActivityCounts()
+    {
+        $data = $this->activities->groupBy('type');
+
+        return [
+            'replies' => count($data[1] ?? []),
+            'likes' => count($data[2] ?? []),
+            'boosts' => count($data[3] ?? []),
+        ];
+    }
+
     public function serialize(Profile $profile, ?array $cc = [])
     {
         [$content, $tags] = $this->formatContent();

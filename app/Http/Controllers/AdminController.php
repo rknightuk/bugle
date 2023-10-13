@@ -12,16 +12,25 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $profiles = Profile::get();
-
         return view('admin.dashboard', [
-            'profiles' => $profiles,
-            'activity' => Activity::orderBy('id', 'desc')->get(),
+            'profiles' => Profile::get(),
+            'activity' => Activity::orderBy('id', 'desc')->paginate(20),
         ]);
     }
 
-    public function showProfile(string $username)
+    public function showCreateProfile()
     {
+        return view('admin.profile_new', [
+            'profiles' => Profile::get(),
+        ]);
+    }
+
+    public function showProfile(string $username, Request $request)
+    {
+        $mention = $request->input('mention');
+        $activityId = $request->input('activity_id');
+        $activity = $activityId ? Activity::where('id', $activityId)->first() : null;
+
         $profile = $this->findProfile($username);
 
         $links = $profile->links->map(function(ProfileLink $link) {
@@ -43,7 +52,13 @@ class AdminController extends Controller
             }
         }
 
-        return view('admin.profile', ['profile' => $profile, 'links' => $links]);
+        return view('admin.profile', [
+            'profiles' => Profile::get(),
+            'currentProfile' => $profile,
+            'links' => $links,
+            'mention' => $mention,
+            'replyingTo' => $activity,
+        ]);
     }
 
     public function createProfile(Request $request)

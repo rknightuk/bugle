@@ -1,16 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.app', ['profiles' => $profiles])
 
 @section('title', 'Dashboard')
 
 @section('content')
 
-    <h1>{{ $profile->getAPUsername() }}</h1>
-
-    <p><a href="/dashboard/{{"@"}}{{ $profile->username }}">&laquo; {{"@"}}{{ $profile->username }}</a></p>
+    <h1>{{ $currentProfile->getAPUsername() }}</h1>
 
     <h2>Edit Toot</h2>
 
-    <form class="ui form" method="post">
+    <form class="ui tiny form" method="post">
         <div class="field">
             <label>Toot Content</label>
             <textarea name="content" maxlength="500">{{ $post->content }}</textarea>
@@ -40,7 +38,7 @@
 
     <h2>Delete Toot</h2>
 
-    <form class="ui form" method="post">
+    <form class="ui tiny form" method="post">
         @method('delete')
         <input type="submit" value="Delete Toot" class="button">
     </form>

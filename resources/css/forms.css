@@ -937,3 +937,16 @@ button, .button {
 button:hover, .button:hover {
     cursor: pointer;
 }
+
+a.button {
+    text-decoration: none;
+}
+
+a.button:hover {
+    text-decoration: underline;
+}
+
+.button.small {
+    padding: 5px 10px;
+    font-weight: normal;
+}

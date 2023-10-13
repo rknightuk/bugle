@@ -3,15 +3,5 @@ header.home {
 }
 
 header.home h1 {
-    font-size: 2.3em;
-}
-
-header.home h2 {
-    margin-top: 0;
-}
-
-.home-content {
-    font-size: 1.2em;
-    max-width: 650px;
-    margin: 0 auto;
+    color: white;
 }

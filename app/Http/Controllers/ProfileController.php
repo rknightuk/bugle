@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Follower;
 use App\Models\Post;
 use App\Models\Profile;
-use App\Models\ProfileLink;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    public function timeline()
+    {
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
+
+        return view('public.timeline', ['posts' => $posts]);
+    }
+
     public function show(string $username, Request $request)
     {
         $profile = $this->findProfile($username);
@@ -18,7 +24,7 @@ class ProfileController extends Controller
             return $this->jsonProfile($profile);
         }
 
-        $posts = $profile->posts()->orderBy('id', 'desc')->get();
+        $posts = $profile->posts()->orderBy('id', 'desc')->paginate(5);
 
         return view('public.profile', ['profile' => $profile, 'posts' => $posts]);
     }

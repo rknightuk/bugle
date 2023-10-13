@@ -1,5 +1,7 @@
 ## Bugle
 
+![Screenshots of Bugle](public/assets/screenshot_small.png)
+
 **What does it do?**
 
 - Create ActivityPub profiles

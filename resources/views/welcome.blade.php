@@ -6,11 +6,14 @@
 @section('content')
 
     <header class="home">
-        <h1><i class="fas fa-trumpet"></i> Bugle</h1>
-        <h2>A minimal ActivityPub server built with Laravel</h2>
+        <h1>A minimal ActivityPub server built with Laravel</h1>
     </header>
 
     <div class="home-content">
+
+        <img src="/assets/screenshot_small.png">
+
+        <p><a href="/timeline">View Bugle's local timeline</a></p>
 
         <h3>What <em>does</em> it do?</h3>
         <ul class="fa-ul">
@@ -23,8 +26,6 @@
             <li><span class="fa-li"><i class="fas fa-images"></i></span>Attach photos to toots</li>
             <li><span class="fa-li"><i class="fas fa-at"></i></span>Reply and @mention people in toots</li>
         </ul>
-
-        <p><i class="fad fa-trumpet"></i> <a href="/@bugle">View @bugle's profile</a></li>
 
         <h3>What <em>doesn't</em> it do?</h3>
         <ul class="fa-ul">
