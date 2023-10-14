@@ -1,7 +1,7 @@
 
 @extends('layouts.app', ['public' => true])
 
-@section('title', 'Dashboard')
+@section('title', '🎺')
 
 @section('content')
 
