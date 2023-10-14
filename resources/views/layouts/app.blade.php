@@ -48,6 +48,10 @@
 
         <div class="wrapper">
             <div class="sidebar">
+                <a class="sidebar__profile" href="/timeline">
+                    <div class="sidebar__profile__image"><i class="fas fa-heart-rate"></i></div>
+                    <span class="sidebar__profile__meta">Timeline</a>
+                </a>
                 <a class="sidebar__profile" href="/dashboard/add">
                     <div class="sidebar__profile__image"><i class="fas fa-plus"></i></div>
                     <span class="sidebar__profile__meta">Add Profile</a>
