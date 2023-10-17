@@ -13,7 +13,9 @@
         </span>
     </div>
 
-    @include('includes.subscribe')
+    @if (!isset($singleToot))
+        @include('includes.subscribe')
+    @endif
 
     @if (!isset($singleToot))
         <header class="profile">
