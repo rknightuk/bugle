@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,8 @@ Route::get('.well-known/nodeinfo', [WellKnownController::class, 'nodeinfoBasic']
 Route::get('nodeinfo/2.1', [WellKnownController::class, 'nodeinfo']);
 
 Route::get('timeline', [ProfileController::class, 'timeline']);
+Route::get('timeline/feed.json', [FeedController::class, 'timelineJson']);
+Route::get('timeline/feed.xml', [FeedController::class, 'timelineRSS']);
 
 Route::post('@{username}', [PostController::class, 'createFromApi']);
 
@@ -35,6 +38,10 @@ Route::get('@{username}/followers', [ProfileController::class, 'followers']);
 Route::get('@{username}/following', [ProfileController::class, 'following']);
 Route::get('@{username}/outbox', [ProfileController::class, 'outbox']);
 Route::get('@{username}/collections/featured', [ProfileController::class, 'featured']);
+
+Route::get('@{username}/feed.json', [FeedController::class, 'profileJson']);
+Route::get('@{username}/feed.xml', [FeedController::class, 'profileRSS']);
+
 Route::get('@{username}/{postUuid}', [ProfileController::class, 'post']);
 
 Route::post('inbox', [InboxController::class, 'globalInbox']);

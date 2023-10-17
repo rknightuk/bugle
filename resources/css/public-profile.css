@@ -51,3 +51,24 @@
     text-transform: uppercase;
     display: block;
 }
+
+.subscribe {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    justify-content: space-evenly;
+}
+
+.subscribe__button {
+    text-decoration: none;
+    color: var(--text);
+    background-color: var(--bg-alt);
+    border: 1px solid var(--text-subtle);
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.subscribe__button:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}

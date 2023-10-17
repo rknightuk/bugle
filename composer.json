@@ -19,7 +19,6 @@
         "laravel/breeze": "^1.21",
         "laravel/homestead": "^14.4",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.1",

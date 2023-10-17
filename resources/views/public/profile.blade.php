@@ -13,6 +13,8 @@
         </span>
     </div>
 
+    @include('includes.subscribe')
+
     @if (!isset($singleToot))
         <header class="profile">
             <div class="profile__image">

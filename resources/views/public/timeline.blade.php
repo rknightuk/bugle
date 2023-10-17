@@ -11,6 +11,8 @@
         </span>
     </div>
 
+    @include('includes.subscribe')
+
     @foreach ($posts as $p)
         @include('includes.toot')
     @endforeach
