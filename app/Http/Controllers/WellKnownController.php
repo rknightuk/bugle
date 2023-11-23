@@ -61,11 +61,10 @@ class WellKnownController extends Controller
             abort(400);
         }
 
-        $url = parse_url($resource);
-        $host = $url['host'] ?? null;
-        $path = $url['path'] ?? null;
+        $resource = str_replace('acct:', '', $resource);
+        [$username, $host] = explode('@', $resource);
 
-        if (!$path)
+        if (!$host || !$username)
         {
             abort(400);
         }
@@ -73,8 +72,6 @@ class WellKnownController extends Controller
         if ($host !== config('bugle.domain.host')) {
             abort(400);
         }
-
-        $username = array_values(array_filter(explode('/', $path)))[0] ?? null;
 
         if (empty($username))
         {
