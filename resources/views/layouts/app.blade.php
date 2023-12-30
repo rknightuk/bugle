@@ -23,11 +23,11 @@
         @if (isset($profile))
             <meta property="og:title" content="Bugle - @yield('title')" />
             @if (isset($post))
-                <meta property="description" content="{!! formatForMeta($post->formatContent()[0]) !!}" />
+                <meta name="description" content="{!! formatForMeta($post->formatContent()[0]) !!}" />
                 <meta property="og:description" content="{!! formatForMeta($post->formatContent()[0]) !!}" />
                 <meta property="og:image" content="{{ $post->firstImageOrAvatar() }}">
             @else
-                <meta property="description" content="{!! formatForMeta($profile->formatBio()) !!}" />
+                <meta name="description" content="{!! formatForMeta($profile->formatBio()) !!}" />
                 <meta property="og:description" content="{!! formatForMeta($profile->formatBio()) !!}" />
                 <meta property="og:image" content="{{ $profile->getAvatarPath() }}">
             @endif
@@ -35,7 +35,7 @@
             <meta property="og:url" content="{{ Request::url() }}" />
         @else
             <meta property="og:title" content="Bugle - @yield('title')" />
-            <meta property="description" content="A minimal ActivityPub server built with Laravel" />
+            <meta name="description" content="A minimal ActivityPub server built with Laravel" />
             <meta property="og:description" content="A minimal ActivityPub server built with Laravel" />
             <meta property="og:type" content="article" />
             <meta property="og:image" content="/assets/icons/preview.png">
