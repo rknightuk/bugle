@@ -89,8 +89,8 @@ class PostController extends Controller
                     'file' => $attachmentPath,
                     'alt' => $request->input('attachment_alt')[$i] ?? '',
                     'mime' => $mimeType,
-                    'width' => $dimensions[0],
-                    'height' => $dimensions[1],
+                    'width' => $dimensions[0] ?? 100,
+                    'height' => $dimensions[1] ?? 100,
                     'blurhash' => $this->blurhash->encode($attachment),
                 ]);
             }
