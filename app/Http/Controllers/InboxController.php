@@ -21,6 +21,11 @@ class InboxController extends Controller
 
         $input = $request->input();
 
+        info('-------------------');
+        info('global inbox');
+        info(print_r($input, true));
+        info('-------------------');
+
         if ($input['type'] !== 'Create')
         {
             return;
@@ -38,6 +43,11 @@ class InboxController extends Controller
 
         $profile = $this->findProfile($username);
         $input = $request->input();
+
+        info('-------------------');
+        info('user inbox for ' . $username);
+        info(print_r($input, true));
+        info('-------------------');
 
         if ($input['type'] === 'Undo' && Arr::get($input, 'object.type') === 'Follow') {
             info('Removing follower');
